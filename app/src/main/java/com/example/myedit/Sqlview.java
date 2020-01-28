@@ -14,9 +14,9 @@ public class Sqlview extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sqlview);
 
-        tvresult =(TextView)findViewById(R.id.tvresult);
+        tvresult = (TextView)findViewById(R.id.tvresult);
         db=new SqLiteDB(this);
-        String data=db.getData();
+        String data = db.getData();
         tvresult.setText(data);
     }
 }

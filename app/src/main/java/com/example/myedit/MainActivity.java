@@ -32,6 +32,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         insertbtn.setOnClickListener(this);
         viewbtn.setOnClickListener(this);
+        searchbtn.setOnClickListener(this);
+        updatebtn.setOnClickListener(this);
+        deletebtn.setOnClickListener(this);
 
         db=new SqLiteDB(this);
     }
@@ -75,7 +78,108 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intent=new Intent(getApplicationContext(),Sqlview.class);
                 startActivity(intent);
 
+            break;
+
+            case R.id.searchbtn:
+                boolean fine1=true;
+
+                try {
+
+                    String id=nameid.getText().toString();
+                    long l=Long.parseLong(id);
+                   String fname= db.getStudentfirstname(l);
+                   String lname= db.getStudentlastname(l);
+                   editfirstname.setText(fname);
+                   editlastname.setText(lname);
+                }
+                catch (Exception e)
+                {
+                    fine1 = false;
+                    String error = e.toString();
+                    Dialog d=new Dialog(this);
+                    d.setTitle("Sorry");
+                    TextView tv=new TextView(this);
+                    tv.setText("error");
+                    d.setContentView(tv);
+                    d.show();
+                }finally {
+                    if (fine1){
+                        Dialog d=new Dialog(this);
+                        d.setTitle("At least we did it");
+                        TextView tv=new TextView(this);
+                        tv.setText("Success");
+                        d.setContentView(tv);
+                        d.show();
+                    }
+                }
+
+                break;
+            case R.id. updatebtn :
+                boolean fine2=true;
+
+                try {
+
+                    String firstname = editfirstname.getText().toString();
+                    String lastnamae = editlastname.getText().toString();
+                    String id=nameid.getText().toString();
+                    long l=Long.parseLong(id);
+
+                    db.UpdateStudent(l,firstname,lastnamae);
+
+
+                }
+                catch (Exception e)
+                {
+                    fine2 = false;
+                    String error = e.toString();
+                    Dialog d=new Dialog(this);
+                    d.setTitle("Sorry");
+                    TextView tv=new TextView(this);
+                    tv.setText("error");
+                    d.setContentView(tv);
+                    d.show();
+                }finally {
+                    if (fine2){
+                        Dialog d=new Dialog(this);
+                        d.setTitle("At least we did it");
+                        TextView tv=new TextView(this);
+                        tv.setText("Success");
+                        d.setContentView(tv);
+                        d.show();
+                    }
+                }
+
+            case R.id.deletebtn:
+                boolean fine3=true;
+
+                try {
+
+                    String id=nameid.getText().toString();
+                    long l=Long.parseLong(id);
+                     db.deleteStudent(l);
+
+                }
+                catch (Exception e)
+                {
+                    fine3 = false;
+                    String error = e.toString();
+                    Dialog d=new Dialog(this);
+                    d.setTitle("Sorry");
+                    TextView tv=new TextView(this);
+                    tv.setText("error");
+                    d.setContentView(tv);
+                    d.show();
+                }finally {
+                    if (fine3){
+                        Dialog d=new Dialog(this);
+                        d.setTitle("At least we did it");
+                        TextView tv=new TextView(this);
+                        tv.setText("Success");
+                        d.setContentView(tv);
+                        d.show();
+                break;
 
         }
     }
+} }
 }

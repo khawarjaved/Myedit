@@ -44,17 +44,17 @@ public class SqLiteDB extends SQLiteOpenHelper {
 
     public long insertStudent(String firstname, String lastnamae) {
 
-        db=this.getWritableDatabase();
-        ContentValues cv=new ContentValues();
+        db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
         cv.put(KEY_FIRST_NAME, firstname);
         cv.put(KEY_LAST_NAME, lastnamae);
         return db.insert(TABLE_STUDENT, null, cv);
     }
 
     public String getData() {
-        db=this.getReadableDatabase();
+        db = this.getReadableDatabase();
         String[] coulmns = new String[]{KEY_ROWID,KEY_FIRST_NAME,KEY_LAST_NAME};
-        Cursor cursor=db.query(TABLE_STUDENT,coulmns,null,null,null,null,null);
+        Cursor cursor = db.query(TABLE_STUDENT,coulmns,null,null,null,null,null);
         String result="";
 
         int iRow=cursor.getColumnIndex(KEY_ROWID);
@@ -65,6 +65,46 @@ public class SqLiteDB extends SQLiteOpenHelper {
         {
             result = result + cursor.getString(iRow) + "" + cursor.getString(ifirstname) + "" + cursor.getString(ilastname)+"\n";
         }
+        db.close();
         return result;
+    }
+
+    public String getStudentfirstname(long l) {
+        db=this.getReadableDatabase();
+        String[] coulmns = new String[]{KEY_ROWID,KEY_FIRST_NAME,KEY_LAST_NAME};
+        Cursor cursor = db.query(TABLE_STUDENT,coulmns,KEY_ROWID + "=" + l,null,null,null,null,null);
+        if (cursor!=null);
+        {
+            cursor.moveToFirst();
+            String name = cursor.getString(1);
+            return name;
+        }
+    }
+
+    public String getStudentlastname(long l) {
+        db=this.getReadableDatabase();
+        String[] coulmns = new String[]{KEY_ROWID,KEY_FIRST_NAME,KEY_LAST_NAME};
+        Cursor cursor = db.query(TABLE_STUDENT,coulmns,KEY_ROWID + "=" + l,null,null,null,null,null);
+        if (cursor!=null);
+        {
+            cursor.moveToFirst();
+            String name = cursor.getString(2);
+            return name;
+        }
+    }
+
+    public void UpdateStudent(long l, String firstname, String lastnamae) {
+        db=this.getWritableDatabase();
+        ContentValues c=new ContentValues();
+        c.put(KEY_FIRST_NAME,firstname);
+        c.put(KEY_LAST_NAME,lastnamae);
+        db.update(TABLE_STUDENT,c, KEY_ROWID + "=" +l,null);
+        db.close();
+    }
+
+    public void deleteStudent(long l) {
+        db=this.getWritableDatabase();
+        db.delete(TABLE_STUDENT,KEY_ROWID + "= " + l,null);
+        db.close();
     }
 }
